@@ -44,7 +44,7 @@ func UploadUsersToDB(conn *pgx.Conn, usuarios []model.User, batchSize int) error
 	if err != nil {
 		log.Fatalf("unable to create table: %v\n", err)
 	}
-
+	//TODO: BatchSize = 1000
 	for i := 0; i < len(usuarios); i += batchSize {
 		end := i + batchSize
 		if end > len(usuarios) {
