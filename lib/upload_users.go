@@ -2,12 +2,19 @@ package lib
 
 import (
 	"context"
+	"fmt"
 	"github.com/Kahyberth/read-csv-golang/model"
 	"github.com/jackc/pgx/v5"
 	"log"
 )
 
 func UploadUsersToDB(conn *pgx.Conn, usuarios []model.User, batchSize int) error {
+	// Limpia la tabla antes de insertar nuevos datos
+	_, err := conn.Exec(context.Background(), "DROP TABLE IF EXISTS users")
+	if err != nil {
+		return fmt.Errorf("error al truncar la tabla: %v", err)
+	}
+
 	tx, err := conn.Begin(context.Background())
 	if err != nil {
 		return err
