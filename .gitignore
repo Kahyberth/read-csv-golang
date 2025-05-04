@@ -1,0 +1,39 @@
+# Archivos binarios y ejecutables
+/bin/
+/exe/
+*.exe
+*.out
+
+# Archivos específicos de Go
+*.test
+*.prof
+*.so
+
+# Directorios de dependencias y módulos
+/vendor/
+/go.sum
+
+# Archivos de entorno y configuración sensible
+.env
+*.env
+config/local.*
+
+# Archivos específicos de IDE (GoLand, VSCode)
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Archivos de base de datos y logs
+*.db
+*.sqlite
+*.log
+/pgdata/
+
+# Archivos generados por el sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*~
