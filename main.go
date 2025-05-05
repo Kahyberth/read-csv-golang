@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-
-	_func "github.com/Kahyberth/read-csv-golang/func"
 	"github.com/Kahyberth/read-csv-golang/lib"
 	"github.com/jackc/pgx/v5"
+
+	_func "github.com/Kahyberth/read-csv-golang/func"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 		}
 	}(conn, context.Background())
 
-	usuarios, err := _func.ReadCSVOcarina()
+	usuarios, err := _func.ReadUtils()
 	if err != nil {
 		fmt.Println("Error leyendo el CSV:", err)
 		return
