@@ -16,9 +16,14 @@ func main() {
 		fmt.Println("Error conectando a la base de datos:", err)
 		return
 	}
-	defer conn.Close(context.Background())
+	defer func(conn *pgx.Conn, ctx context.Context) {
+		err := conn.Close(ctx)
+		if err != nil {
 
-	usuarios, err := _func.ReadCSVGocarina()
+		}
+	}(conn, context.Background())
+
+	usuarios, err := _func.ReadCSVOcarina()
 	if err != nil {
 		fmt.Println("Error leyendo el CSV:", err)
 		return
