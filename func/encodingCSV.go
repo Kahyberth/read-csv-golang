@@ -4,13 +4,14 @@ import (
 	"encoding/csv"
 	"log"
 	"os"
+	"time"
 
 	"github.com/Kahyberth/read-csv-golang/lib"
 	"github.com/Kahyberth/read-csv-golang/model"
 )
 
-func ReadCSVOne() ([]model.User, error) {
-	//start := time.Now()
+func ReadCSVOne() ([]model.User, time.Duration, error) {
+	start := time.Now()
 	file, err := os.OpenFile("clientes.csv", os.O_RDONLY|os.O_CREATE, os.ModePerm)
 
 	if err != nil {
@@ -43,9 +44,7 @@ func ReadCSVOne() ([]model.User, error) {
 		users = append(users, user)
 	}
 
-	//elapsed := time.Since(start)
+	elapsed := time.Since(start)
 
-	//fmt.Printf("En segundos: %.2f s\n", elapsed.Seconds())
-
-	return users, nil
+	return users, elapsed, nil
 }

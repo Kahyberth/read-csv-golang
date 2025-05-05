@@ -6,18 +6,21 @@ import (
 	"github.com/Kahyberth/read-csv-golang/model"
 	"github.com/jackc/pgx/v5"
 	"log"
+	"time"
 )
 
-func UploadUsersToDB(conn *pgx.Conn, usuarios []model.User, batchSize int) error {
+func UploadUsersToDB(conn *pgx.Conn, usuarios []model.User, batchSize int) (time.Duration, error) {
+	start := time.Now()
+
 	// Limpia la tabla antes de insertar nuevos datos
 	_, err := conn.Exec(context.Background(), "DROP TABLE IF EXISTS users")
 	if err != nil {
-		return fmt.Errorf("error al truncar la tabla: %v", err)
+		return 0, fmt.Errorf("error al truncar la tabla: %v", err)
 	}
 
 	tx, err := conn.Begin(context.Background())
 	if err != nil {
-		return err
+		return 0, err
 	}
 	defer func(tx pgx.Tx, ctx context.Context) {
 		err := tx.Rollback(ctx)
@@ -73,9 +76,11 @@ func UploadUsersToDB(conn *pgx.Conn, usuarios []model.User, batchSize int) error
 
 		br := tx.SendBatch(context.Background(), batch)
 		if err := br.Close(); err != nil {
-			return err
+			return 0, err
 		}
 	}
 
-	return tx.Commit(context.Background())
+	uploadTime := time.Since(start)
+
+	return uploadTime, tx.Commit(context.Background())
 }
